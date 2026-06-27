@@ -52,14 +52,18 @@ List/Thumbnail 모드 · 더블클릭 텍스트(Description=textarea) 편집 · 
 **Add 폼 / Add Multiple / Add CSV** · 고정폭+가로스크롤(창 확장 시 썸네일 고정).
 
 **화면**: Project List(로고 클릭) · Overview(통계) · Shots/Assets 그리드 · My Tasks · Schedule/Gantt ·
-Review/Versions 그리드+리뷰 패널 · Playlists · **엔티티 상세 전체페이지**(브레드크럼+큰썸네일+필드표+
-Activity/Tasks/Versions/Notes 서브탭).
+Review/Versions 그리드+리뷰 패널(**실제 영상 스트리밍 플레이어**+프레임 이동) · Playlists ·
+**엔티티 상세 전체페이지**(브레드크럼+큰썸네일+필드표+Activity/Tasks/Versions/Notes 서브탭,
+Versions 탭 카드 클릭→리뷰 드로어) · **전역 Inbox**(`/inbox`: 전 프로젝트 활동 피드, 날짜버킷
+Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav unread 배지).
 
 **기타**: 더미 로그인/유저메뉴/로그아웃 · Projects 드롭다운 선택 · 활동이력(EventLog) 기록·표시 ·
-실제 base.css 추출 색/폰트 토큰(#0696d7 등) · 샘플 썸네일 이미지(`/static/thumbs`).
+실제 base.css 추출 색/폰트 토큰(#0696d7 등) · 샘플 썸네일/영상(`/static/thumbs`,`/static/media`) ·
+테이블 스페이서 컬럼(리사이즈 시 타 컬럼 안 늘어남) · **로컬 git 초기화됨**(branch `main`).
 
-남은 로드맵: 전역 Inbox/Activity 피드, 백엔드 bulk create/delete 엔드포인트, 커스텀필드 타입 확장
-(date/entity/user), 기본 컬럼 확장(Reel/Priority/Camera), CSV 인용 파서, 폼 focus-trap.
+남은 로드맵: 백엔드 bulk create/delete 엔드포인트, 커스텀필드 타입 확장 (date/entity/user),
+기본 컬럼 확장(Reel/Priority/Camera), CSV 인용 파서, 폼 focus-trap, Inbox 고도화(스레드 묶기·
+@mention·유저별 Notification 테이블).
 
 ---
 
