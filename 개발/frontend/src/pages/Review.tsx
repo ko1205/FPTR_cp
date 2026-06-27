@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useProject } from "../context/ProjectContext";
 import {
   useVersions,
@@ -186,10 +186,22 @@ export function ReviewPanel({ version, users, onClose }: { version: Version; use
 export function Review() {
   const { projectId } = useProject();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: versions, isLoading } = useVersions({ project_id: projectId });
   const { data: users } = useUsers();
   const updateStatus = useUpdateStatus("versions");
   const [selected, setSelected] = useState<Version | null>(null);
+
+  // 딥링크 ?v=<id> (전역 Inbox 의 Version 활동 클릭 등) → 해당 버전 리뷰 패널 자동 오픈
+  const deepLinkId = searchParams.get("v");
+  useEffect(() => {
+    if (!deepLinkId || !versions) return;
+    const v = versions.find((x) => x.id === Number(deepLinkId));
+    if (v) setSelected(v);
+    searchParams.delete("v");
+    setSearchParams(searchParams, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deepLinkId, versions]);
 
   if (projectId == null) return <div className="page empty">Select a project first.</div>;
 

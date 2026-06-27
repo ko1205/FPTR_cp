@@ -36,4 +36,6 @@
 
 ## 비고 / 다음
 - 스레드 묶기(노트/리플 collapse), @mention 파싱, Notification 테이블(유저별 read_at/reason) 은 후속.
-- Version/Note 이벤트는 현재 비클릭(상세 라우트 없음) — 추후 Media 딥링크로 연결 가능.
+- (해결) **Version 활동 행 클릭** → `/review?v=<id>` 딥링크로 Media 리뷰 패널 자동 오픈
+  (`Review.tsx` 가 `?v=` 파라미터 읽어 해당 버전 select). Shot/Asset 행은 `/detail/{type}/{id}`.
+  → 이전엔 Shot/Asset 만 클릭 가능해 Version 만 있는 날짜의 항목이 "클릭 안 됨"으로 보이던 문제 제거.

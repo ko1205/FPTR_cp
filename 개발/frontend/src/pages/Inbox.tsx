@@ -74,9 +74,16 @@ export function Inbox() {
     return BUCKETS.filter((b) => m.has(b)).map((b) => [b, m.get(b)!] as const);
   }, [shown]);
 
+  // 링크 가능한 활동인지 (Shot/Asset → 상세, Version → 리뷰 패널 딥링크)
+  const isClickable = (e: InboxEvent) =>
+    e.entity_type === "Shot" || e.entity_type === "Asset" || e.entity_type === "Version";
+
   const openEvent = (e: InboxEvent) => {
+    if (!isClickable(e)) return;
     if (e.project) setProjectId(e.project.id);
-    if (e.entity_type === "Shot" || e.entity_type === "Asset") {
+    if (e.entity_type === "Version") {
+      navigate(`/review?v=${e.entity_id}`);
+    } else {
       navigate(`/detail/${e.entity_type}/${e.entity_id}`);
     }
   };
@@ -115,7 +122,7 @@ export function Inbox() {
               <ul className="inbox-list">
                 {items.map((e) => {
                   const unread = eventMs(e.created_at) > lastReadMs;
-                  const clickable = e.entity_type === "Shot" || e.entity_type === "Asset";
+                  const clickable = isClickable(e);
                   return (
                     <li
                       key={e.id}
