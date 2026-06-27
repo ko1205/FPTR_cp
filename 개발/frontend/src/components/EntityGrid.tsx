@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { thumbStyle } from "../util/thumb";
+import { parseCSV } from "../util/csv";
 import { useGridView, type CustomFieldType } from "./gridView";
 import {
   useCustomFieldDefs,
@@ -775,12 +776,11 @@ function BatchAddModal({
     if (mode === "lines") {
       return text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).map((line) => ({ [primaryField]: line }));
     }
-    // CSV (간단 파서: 인용 콤마 미지원)
-    const lines = text.split(/\r?\n/).filter((l) => l.trim());
-    if (lines.length < 2) return [];
-    const headers = lines[0].split(",").map((h) => h.trim());
-    return lines.slice(1).map((line) => {
-      const cells = line.split(",");
+    // CSV (RFC4180 파서: 인용 필드/콤마/줄바꿈/이스케이프 따옴표 지원)
+    const grid = parseCSV(text);
+    if (grid.length < 2) return [];
+    const headers = grid[0].map((h) => h.trim());
+    return grid.slice(1).map((cells) => {
       const obj: Record<string, string | number> = {};
       headers.forEach((h, i) => {
         const f = fields.find((a) => a.key === h || a.label.toLowerCase() === h.toLowerCase());
@@ -822,14 +822,14 @@ function BatchAddModal({
           <p className="muted" style={{ fontSize: 11, margin: "0 0 6px" }}>
             {mode === "lines"
               ? `한 줄에 하나씩 ${primaryField} 입력`
-              : `첫 줄=헤더(${fields.map((f) => f.key).join(", ")}), 이후 줄=데이터 (간단 CSV, 인용 콤마 미지원)`}
+              : `첫 줄=헤더(${fields.map((f) => f.key).join(", ")}), 이후 줄=데이터 · 값에 콤마/줄바꿈은 "큰따옴표"로 감싸기`}
           </p>
           <textarea
             className="batch-textarea"
             rows={9}
             value={text}
             onChange={(e) => { setText(e.target.value); setResult(null); }}
-            placeholder={mode === "lines" ? "SEQ010_0050\nSEQ010_0060" : "code,description\nSEQ010_0050,New shot\nSEQ010_0060,Another"}
+            placeholder={mode === "lines" ? "SEQ010_0050\nSEQ010_0060" : 'code,description\nSEQ010_0050,"Opening, wide shot"\nSEQ010_0060,Another'}
             autoFocus
           />
           <div className="muted" style={{ fontSize: 11 }}>

@@ -38,10 +38,12 @@
   `localStorage.setItem('fptr.auth', ...)` 후 캡처. 패턴은 과거 `/tmp/cdp*.mjs` 참고.
 - 원본 실제 FPTR 접속·코드 추출 방법: `기획/협업/FPTR_접속_및_코드읽기_방법.md`.
 
-### 무료 배포 (Render 단일 서비스)
-- `Dockerfile`(멀티스테이지) + `render.yaml`(무료 web service) 준비됨. FastAPI 가 `/api`+`/static`+빌드된 SPA(`/`)를
-  동일 오리진 서빙(CORS 불필요). 부팅 시 DB 비면 자동 시드(휘발 FS). `FTPR_DB_DIR`/`FRONTEND_DIST` env.
-- 절차·주의: `DEPLOY.md`. 논의: `기획/협업/11_무료호스팅배포.md`. GitHub 원격은 사용자가 직접 연결.
+### 무료 배포 (Render 단일 서비스) — **라이브 운영 중**
+- **라이브 URL: https://ftpr-copy.onrender.com/** (Render 무료 web service, 검증 완료 2026-06-27).
+  무료 티어라 15분 유휴 후 슬립 → 첫 접속 30~60초 콜드스타트, 재배포/슬립 시 데이터 휘발(부팅 자동 재시드).
+- `Dockerfile`(멀티스테이지) + `render.yaml`(무료 web service). FastAPI 가 `/api`+`/static`+빌드된 SPA(`/`)를
+  동일 오리진 서빙(CORS 불필요). 부팅 시 DB 비면 자동 시드. `FTPR_DB_DIR`/`FRONTEND_DIST` env.
+- 절차·주의: `DEPLOY.md`. 논의: `기획/협업/11_무료호스팅배포.md`.
 
 ---
 
@@ -71,8 +73,8 @@ Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav u
 (미지정 시 N회 루프 폴백). Add Multiple/CSV·일괄삭제가 단일 호출로 처리.
 
 남은 로드맵: 커스텀필드 타입 확장 (date/entity/user), 기본 컬럼 확장(Reel/Priority/Camera),
-CSV 인용 파서, 폼 focus-trap, Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블),
-단건 create/delete 활동이벤트 통일.
+폼 focus-trap, Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블),
+단건 create/delete 활동이벤트 통일. (CSV 인용 파서 완료 — `util/csv.ts` RFC4180)
 
 ---
 
