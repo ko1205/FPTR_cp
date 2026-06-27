@@ -72,9 +72,10 @@ Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav u
 단일 커밋·엔티티당 EventLog. 프론트 `useBulkCreate/useBulkDelete` + EntityGrid `onBulkCreate/onBulkDelete`
 (미지정 시 N회 루프 폴백). Add Multiple/CSV·일괄삭제가 단일 호출로 처리.
 
-남은 로드맵: 커스텀필드 타입 확장 (date/entity/user), 기본 컬럼 확장(Reel/Priority/Camera),
-폼 focus-trap, Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블),
-단건 create/delete 활동이벤트 통일. (CSV 인용 파서 완료 — `util/csv.ts` RFC4180)
+남은 로드맵: 기본 컬럼 확장(Reel/Priority/Camera), 폼 focus-trap,
+Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블), 단건 create/delete 활동이벤트 통일.
+(완료: CSV 인용 파서 `util/csv.ts`; 커스텀필드 타입 date/user/entity — date=ISO문자열,
+user=유저id, entity="Type:id" 참조, EntityGrid CustomCell 인라인 편집.)
 
 ---
 

@@ -173,5 +173,5 @@ class CustomFieldDefCreate(BaseModel):
     project_id: int
     entity_type: str  # 'Shot' / 'Asset'
     label: str
-    type: str = "text"  # text / number / checkbox
+    type: str = "text"  # text / number / checkbox / date / user / entity
     field_id: Optional[str] = None  # 미지정 시 label 슬러그

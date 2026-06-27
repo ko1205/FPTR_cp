@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
  * - 재배치는 moveColumn(from,to) 로 추상화 → 추후 dnd-kit 으로 교체 용이.
  */
 
-export type CustomFieldType = "text" | "number" | "checkbox";
+export type CustomFieldType = "text" | "number" | "checkbox" | "date" | "user" | "entity";
 
 export interface ViewConfig {
   order: string[]; // 컬럼 key 순서 (기본 컬럼 key + `cf:<field_id>`)

@@ -854,6 +854,22 @@ input {
   background: var(--bg-3);
   outline: none;
 }
+/* user/entity 커스텀필드 셀렉트 */
+.cf-select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.cf-select:hover,
+.cf-select:focus {
+  border-color: var(--border);
+  background: var(--bg-3);
+}
+/* date 커스텀필드: 다크 테마 캘린더 아이콘 */
+.cf-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+  cursor: pointer;
+}
 
 .fields-menu {
   position: relative;

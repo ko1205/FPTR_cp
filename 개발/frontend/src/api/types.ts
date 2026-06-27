@@ -83,7 +83,7 @@ export interface CustomFieldDef {
   entity_type: string;
   field_id: string;
   label: string;
-  type: "text" | "number" | "checkbox";
+  type: "text" | "number" | "checkbox" | "date" | "user" | "entity";
 }
 
 export interface PipelineItem {

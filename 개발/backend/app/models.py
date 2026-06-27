@@ -245,5 +245,5 @@ class CustomFieldDef(Base):
     entity_type = Column(String, nullable=False)  # 'Shot' / 'Asset'
     field_id = Column(String, nullable=False)  # 슬러그 (예: 'priority')
     label = Column(String, nullable=False)
-    type = Column(String, default="text")  # text / number / checkbox
+    type = Column(String, default="text")  # text / number / checkbox / date / user / entity
     created_at = Column(DateTime, default=datetime.utcnow)

@@ -10,8 +10,11 @@ import {
   useUpdateCustomValue,
   useUpdateStatus,
   useStatuses,
+  useUsers,
+  useShots,
+  useAssets,
 } from "../api/hooks";
-import type { CustomFieldDef } from "../api/types";
+import type { CustomFieldDef, User } from "../api/types";
 
 export interface GridColumn<T> {
   key: string;
@@ -143,6 +146,19 @@ export function EntityGrid<T>({
   const deleteCf = useDeleteCustomField();
   const updateCfValue = useUpdateCustomValue(entityKey);
 
+  // user/entity 커스텀필드용 참조 데이터(해당 타입이 있을 때만 fetch)
+  const needsEntities = cfDefs.some((d) => d.type === "entity");
+  const { data: cfUsers = [] } = useUsers();
+  const { data: cfShots = [] } = useShots(needsEntities ? projectId : null);
+  const { data: cfAssets = [] } = useAssets(needsEntities ? projectId : null);
+  const entityOptions = useMemo(
+    () => [
+      ...cfShots.map((s) => ({ value: `Shot:${s.id}`, label: `Shot ${s.code}` })),
+      ...cfAssets.map((a) => ({ value: `Asset:${a.id}`, label: `Asset ${a.code}` })),
+    ],
+    [cfShots, cfAssets]
+  );
+
   const baseKeys = useMemo(() => columns.map((c) => c.key), [columns]);
   const cfKeys = useMemo(() => cfDefs.map((d) => `cf:${d.field_id}`), [cfDefs]);
   const allKeys = useMemo(() => [...baseKeys, ...cfKeys], [baseKeys, cfKeys]);
@@ -160,6 +176,8 @@ export function EntityGrid<T>({
         <CustomCell
           def={def}
           value={getCustomFields?.(row)?.[def.field_id]}
+          users={cfUsers}
+          entityOptions={entityOptions}
           onChange={(val) =>
             updateCfValue.mutate({ id: rowKey(row), fields: { [def.field_id]: val } })
           }
@@ -944,22 +962,74 @@ function EditableCell({
 function CustomCell({
   def,
   value,
+  users,
+  entityOptions,
   onChange,
 }: {
   def: CustomFieldDef;
   value: string | number | boolean | undefined;
+  users: User[];
+  entityOptions: { value: string; label: string }[];
   onChange: (v: string | number | boolean) => void;
 }) {
   const stop = (e: React.MouseEvent) => e.stopPropagation();
+
   if (def.type === "checkbox") {
     return (
       <input type="checkbox" checked={!!value} onClick={stop} onChange={(e) => onChange(e.target.checked)} />
     );
   }
-  // 로컬 편집 상태 → blur 시 저장(매 키 입력마다 PATCH 방지)
+
+  if (def.type === "date") {
+    return (
+      <input
+        className="cf-input"
+        type="date"
+        value={value ? String(value) : ""}
+        onClick={stop}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    );
+  }
+
+  if (def.type === "user") {
+    // 값 = HumanUser id (숫자)
+    return (
+      <select
+        className="cf-input cf-select"
+        value={value === undefined || value === null || value === "" ? "" : String(value)}
+        onClick={stop}
+        onChange={(e) => onChange(e.target.value === "" ? "" : Number(e.target.value))}
+      >
+        <option value="">—</option>
+        {users.map((u) => (
+          <option key={u.id} value={u.id}>{u.name}</option>
+        ))}
+      </select>
+    );
+  }
+
+  if (def.type === "entity") {
+    // 값 = "Shot:5" / "Asset:3" 형태의 참조 문자열
+    return (
+      <select
+        className="cf-input cf-select"
+        value={value ? String(value) : ""}
+        onClick={stop}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="">—</option>
+        {entityOptions.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
+    );
+  }
+
+  // text / number — 로컬 편집 상태 → blur 시 저장(매 키 입력마다 PATCH 방지)
   return (
     <CfTextInput
-      type={def.type}
+      type={def.type === "number" ? "number" : "text"}
       value={value === undefined ? "" : String(value)}
       onCommit={(v) => onChange(def.type === "number" ? Number(v) : v)}
       onClick={stop}
@@ -1072,6 +1142,9 @@ function FieldsMenu<T>({
                   <option value="text">Text</option>
                   <option value="number">Number</option>
                   <option value="checkbox">Checkbox</option>
+                  <option value="date">Date</option>
+                  <option value="user">User</option>
+                  <option value="entity">Entity</option>
                 </select>
                 <button
                   className="add-btn"
