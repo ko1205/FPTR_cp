@@ -86,6 +86,9 @@ export function GlobalBar() {
               </button>
             ))}
             <div className="ud-divider" />
+            <button className="pd-item pd-new" onClick={() => { setProjOpen(false); navigate("/projects?new=1"); }}>
+              ＋ New Project…
+            </button>
             <button className="pd-item" onClick={() => { setProjOpen(false); navigate("/projects"); }}>
               ▦ All Projects…
             </button>

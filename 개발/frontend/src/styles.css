@@ -1542,6 +1542,32 @@ input {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent);
 }
+/* "New Project" 카드 (점선 + 중앙 + 아이콘) */
+.project-card-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-style: dashed;
+  color: var(--text-dim);
+  min-height: 118px;
+}
+.project-card-new:hover {
+  color: var(--accent);
+}
+.pcn-plus {
+  font-size: 26px;
+  line-height: 1;
+}
+.pcn-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.pd-new {
+  color: var(--accent);
+  font-weight: 600;
+}
 .project-card-code {
   font-weight: 800;
   color: var(--accent);

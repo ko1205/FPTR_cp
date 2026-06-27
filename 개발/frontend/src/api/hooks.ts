@@ -51,6 +51,15 @@ export const useProjects = () =>
     queryFn: () => api.get<Project[]>("/projects"),
   });
 
+/** 새 프로젝트 생성 (POST /projects) */
+export const useCreateProject = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: Record<string, unknown>) => api.post<Project>("/projects", body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["projects"] }),
+  });
+};
+
 export const useProjectStats = (projectId: number | null) =>
   useQuery({
     queryKey: ["projectStats", projectId],

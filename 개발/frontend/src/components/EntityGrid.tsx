@@ -39,7 +39,7 @@ const DEFAULT_COL_WIDTH = 150;
 export interface AddField {
   key: string;
   label: string;
-  type: "text" | "number" | "select";
+  type: "text" | "number" | "select" | "date";
   options?: { value: string; label: string }[];
   required?: boolean;
   default?: string | number;
@@ -686,7 +686,7 @@ export function EntityGrid<T>({
 }
 
 /* ---------- 단일 추가 폼 모달 ---------- */
-function AddModal({
+export function AddModal({
   title,
   fields,
   onClose,
@@ -730,7 +730,7 @@ function AddModal({
                 </select>
               ) : (
                 <input
-                  type={f.type === "number" ? "number" : "text"}
+                  type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
                   value={form[f.key] ?? ""}
                   onChange={(e) => setForm((s) => ({ ...s, [f.key]: e.target.value }))}
                   autoFocus={f.key === fields[0].key}
