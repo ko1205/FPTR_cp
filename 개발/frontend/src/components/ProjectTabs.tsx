@@ -17,7 +17,7 @@ export function ProjectTabs() {
     { to: "/", label: "Overview", end: true, count: undefined as number | undefined },
     { to: "/assets", label: "Assets", count: stats?.counts.assets },
     { to: "/shots", label: "Shots", count: stats?.counts.shots },
-    { to: "/my-tasks", label: "Tasks", count: stats?.counts.tasks },
+    { to: "/tasks", label: "Tasks", count: stats?.counts.tasks },
     { to: "/schedule", label: "Schedule", count: undefined },
     { to: "/review", label: "Versions", count: stats?.counts.versions },
     { to: "/playlists", label: "Playlists", count: undefined },

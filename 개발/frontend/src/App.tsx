@@ -7,6 +7,7 @@ import { ProjectsList } from "./pages/ProjectsList";
 import { Dashboard } from "./pages/Dashboard";
 import { Inbox } from "./pages/Inbox";
 import { People } from "./pages/People";
+import { ProjectTasks } from "./pages/ProjectTasks";
 import { Shots } from "./pages/Shots";
 import { Assets } from "./pages/Assets";
 import { MyTasks } from "./pages/MyTasks";
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/shots" element={<Shots />} />
           <Route path="/assets" element={<Assets />} />
           <Route path="/my-tasks" element={<MyTasks />} />
+          <Route path="/tasks" element={<ProjectTasks />} />
           <Route path="/review" element={<Review />} />
           <Route path="/playlists" element={<Playlists />} />
           <Route path="/schedule" element={<Schedule />} />

@@ -58,7 +58,9 @@ Status, Step, CustomFieldDef, EventLog(Activity). 3개 샘플 프로젝트(NEB/A
 List/Thumbnail 모드 · 더블클릭 텍스트(Description=textarea) 편집 · **우클릭 컨텍스트 삭제** ·
 **Add 폼 / Add Multiple / Add CSV** · 고정폭+가로스크롤(창 확장 시 썸네일 고정).
 
-**화면**: Project List(로고 클릭) · Overview(통계) · Shots/Assets 그리드 · My Tasks · Schedule/Gantt ·
+**화면**: Project List(로고 클릭) · Overview(통계) · Shots/Assets 그리드 ·
+**My Tasks**(상단바 `/my-tasks`: 유저 전역·프로젝트무관, USER 피커) vs **Tasks**(엔티티탭 `/tasks`:
+프로젝트 귀속·유저무관, Assignees 컬럼) · Schedule/Gantt ·
 Review/Versions 그리드+리뷰 패널(**실제 영상 스트리밍 플레이어**+프레임 이동) · Playlists ·
 **엔티티 상세 전체페이지**(브레드크럼+큰썸네일+필드표+Activity/Tasks/Versions/Notes 서브탭,
 Versions 탭 카드 클릭→리뷰 드로어) · **전역 Inbox**(`/inbox`: 전 프로젝트 활동 피드, 날짜버킷

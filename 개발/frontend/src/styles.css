@@ -2727,3 +2727,10 @@ input {
 .role-admin { background: #8a4b2b; color: #fff; }
 .role-producer { background: #2f7d4f; color: #fff; }
 .role-artist { background: #3a3d41; color: #d6d6d6; }
+
+/* 프로젝트 Tasks: 담당자 아바타 묶음 */
+.assignee-list {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
