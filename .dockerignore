@@ -1,0 +1,14 @@
+# 빌드 컨텍스트에서 제외 (이미지 크기/빌드 속도)
+.git
+개발/backend/venv
+개발/frontend/node_modules
+개발/frontend/dist
+개발/database/*.db
+개발/database/*.db-journal
+개발/database/*.db-wal
+개발/database/*.db-shm
+기획
+*.log
+.DS_Store
+시작시간.txt
+종료시간.txt

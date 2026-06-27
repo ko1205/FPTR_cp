@@ -38,6 +38,11 @@
   `localStorage.setItem('fptr.auth', ...)` 후 캡처. 패턴은 과거 `/tmp/cdp*.mjs` 참고.
 - 원본 실제 FPTR 접속·코드 추출 방법: `기획/협업/FPTR_접속_및_코드읽기_방법.md`.
 
+### 무료 배포 (Render 단일 서비스)
+- `Dockerfile`(멀티스테이지) + `render.yaml`(무료 web service) 준비됨. FastAPI 가 `/api`+`/static`+빌드된 SPA(`/`)를
+  동일 오리진 서빙(CORS 불필요). 부팅 시 DB 비면 자동 시드(휘발 FS). `FTPR_DB_DIR`/`FRONTEND_DIST` env.
+- 절차·주의: `DEPLOY.md`. 논의: `기획/협업/11_무료호스팅배포.md`. GitHub 원격은 사용자가 직접 연결.
+
 ---
 
 ## 3. 현재 구현된 기능 (요약)

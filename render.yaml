@@ -1,0 +1,16 @@
+# Render Blueprint — 무료 단일 Web Service 배포
+# 사용법: GitHub 에 push 후 Render 대시보드에서 "New +" → "Blueprint" → 이 repo 선택.
+# (또는 New → Web Service → Docker 런타임 수동 선택)
+services:
+  - type: web
+    name: ftpr-copy
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: FTPR_DB_DIR
+        value: /tmp/ftpr        # 휘발 FS(쓰기 가능) — 부팅 시 자동 재시드
+      - key: FRONTEND_DIST
+        value: /app/frontend_dist
