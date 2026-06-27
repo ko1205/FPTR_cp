@@ -1,5 +1,5 @@
 """Shot CRUD + 필터/정렬 + 연관 조회."""
-from typing import Optional
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
@@ -69,6 +69,52 @@ def create_shot(payload: schemas.ShotCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(s)
     return serializers.shot_dict(s, db)
+
+
+@router.post("/batch", status_code=201)
+def batch_create_shots(payload: List[schemas.ShotCreate], db: Session = Depends(get_db)):
+    """여러 Shot 일괄 생성 (all-or-nothing 단일 트랜잭션, 엔티티당 created 이벤트)."""
+    if not payload:
+        raise HTTPException(422, "빈 배치입니다.")
+    created = []
+    for item in payload:
+        s = models.Shot(**item.model_dump(exclude={"asset_ids"}))
+        _recalc_duration(s)
+        db.add(s)
+        db.flush()
+        _apply_assets(s, item.asset_ids, db)
+        activity.record_event(
+            db, project_id=s.project_id, entity_type="Shot", entity_id=s.id,
+            event_type="created", message=f"created Shot {s.code}",
+        )
+        created.append(s)
+    db.commit()
+    smap = serializers.status_map(db)
+    stepmap = serializers.step_map(db)
+    return {
+        "created": [serializers.shot_dict(s, db, smap, stepmap) for s in created],
+        "count": len(created),
+    }
+
+
+@router.post("/batch-delete")
+def batch_delete_shots(payload: schemas.IdList, db: Session = Depends(get_db)):
+    """여러 Shot 일괄 삭제 (존재하는 것만, 엔티티당 deleted 이벤트, 단일 커밋)."""
+    if not payload.ids:
+        raise HTTPException(422, "빈 id 목록입니다.")
+    rows = db.query(models.Shot).filter(models.Shot.id.in_(payload.ids)).all()
+    if not rows:
+        raise HTTPException(404, "삭제할 Shot 이 없습니다.")
+    deleted_ids = []
+    for s in rows:
+        activity.record_event(
+            db, project_id=s.project_id, entity_type="Shot", entity_id=s.id,
+            event_type="deleted", message=f"deleted Shot {s.code}",
+        )
+        deleted_ids.append(s.id)
+        db.delete(s)
+    db.commit()
+    return {"deleted_ids": deleted_ids, "count": len(deleted_ids)}
 
 
 @router.patch("/{shot_id}")

@@ -4,6 +4,7 @@ import { useProject } from "../context/ProjectContext";
 import {
   useShots, useUpdateStatus, useUpdateField, useSteps,
   useSequences, useStatuses, useCreateEntity, useDeleteEntity,
+  useBulkCreate, useBulkDelete,
 } from "../api/hooks";
 import { StatusSelect } from "../components/StatusSelect";
 import { thumbStyle } from "../util/thumb";
@@ -22,6 +23,8 @@ export function Shots() {
   const patchShot = useUpdateField("shots");
   const createShot = useCreateEntity("shots");
   const deleteShot = useDeleteEntity("shots");
+  const bulkCreateShot = useBulkCreate("shots");
+  const bulkDeleteShot = useBulkDelete("shots");
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const stop = (e: React.MouseEvent) => e.stopPropagation();
 
@@ -152,6 +155,8 @@ export function Shots() {
           primaryField="code"
           onCreate={(v) => createShot.mutateAsync({ project_id: projectId, ...v })}
           onDelete={(id) => deleteShot.mutateAsync(id)}
+          onBulkCreate={(items) => bulkCreateShot.mutateAsync(items.map((v) => ({ project_id: projectId, ...v })))}
+          onBulkDelete={(ids) => bulkDeleteShot.mutateAsync(ids)}
           renderCard={(s) => ({
             thumbnail: s.thumbnail,
             code: s.code,

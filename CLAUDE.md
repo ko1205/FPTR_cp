@@ -61,9 +61,13 @@ Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav u
 실제 base.css 추출 색/폰트 토큰(#0696d7 등) · 샘플 썸네일/영상(`/static/thumbs`,`/static/media`) ·
 테이블 스페이서 컬럼(리사이즈 시 타 컬럼 안 늘어남) · **로컬 git 초기화됨**(branch `main`).
 
-남은 로드맵: 백엔드 bulk create/delete 엔드포인트, 커스텀필드 타입 확장 (date/entity/user),
-기본 컬럼 확장(Reel/Priority/Camera), CSV 인용 파서, 폼 focus-trap, Inbox 고도화(스레드 묶기·
-@mention·유저별 Notification 테이블).
+**백엔드 bulk**: `POST /api/{shots,assets}/batch`(일괄생성), `/batch-delete`(일괄삭제) — all-or-nothing
+단일 커밋·엔티티당 EventLog. 프론트 `useBulkCreate/useBulkDelete` + EntityGrid `onBulkCreate/onBulkDelete`
+(미지정 시 N회 루프 폴백). Add Multiple/CSV·일괄삭제가 단일 호출로 처리.
+
+남은 로드맵: 커스텀필드 타입 확장 (date/entity/user), 기본 컬럼 확장(Reel/Priority/Camera),
+CSV 인용 파서, 폼 focus-trap, Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블),
+단건 create/delete 활동이벤트 통일.
 
 ---
 

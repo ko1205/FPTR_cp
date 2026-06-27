@@ -95,6 +95,8 @@ export function EntityGrid<T>({
   primaryField = "code",
   onCreate,
   onDelete,
+  onBulkCreate,
+  onBulkDelete,
 }: {
   entityKey: string;
   entityType: string;
@@ -122,6 +124,10 @@ export function EntityGrid<T>({
   onCreate?: (values: Record<string, string | number>) => Promise<unknown>;
   /** CRUD: 삭제 (있으면 우클릭 삭제 + 일괄 삭제 활성) */
   onDelete?: (id: number) => Promise<unknown>;
+  /** CRUD: 일괄 생성 (있으면 Add Multiple/CSV 가 단일 호출로 처리, 없으면 onCreate N회) */
+  onBulkCreate?: (items: Record<string, string | number>[]) => Promise<unknown>;
+  /** CRUD: 일괄 삭제 (있으면 단일 호출로 처리, 없으면 onDelete N회) */
+  onBulkDelete?: (ids: number[]) => Promise<unknown>;
 }) {
   const [groupKey, setGroupKey] = useState(defaultGroup);
   const [mode, setMode] = useState<"list" | "thumb">("list");
@@ -295,7 +301,13 @@ export function EntityGrid<T>({
       message: `선택한 ${ids.length}개 ${entityLabel}을(를) 삭제할까요?`,
       onYes: async () => {
         setConfirmBox(null);
-        for (const id of ids) { try { await onDelete?.(id); } catch { /* 부분실패 무시 */ } }
+        if (onBulkDelete) {
+          // 단일 호출 일괄 삭제 (all-or-nothing)
+          try { await onBulkDelete(ids); } catch { /* 실패 시 무효화로 복구 */ }
+        } else {
+          // 폴백: onDelete N회
+          for (const id of ids) { try { await onDelete?.(id); } catch { /* 부분실패 무시 */ } }
+        }
         clearSel();
       },
     });
@@ -664,6 +676,7 @@ export function EntityGrid<T>({
             entityLabel={entityLabel}
             onClose={() => setBatchMode(null)}
             onCreate={onCreate}
+            onBulkCreate={onBulkCreate}
           />,
           document.body
         )}
@@ -744,6 +757,7 @@ function BatchAddModal({
   entityLabel,
   onClose,
   onCreate,
+  onBulkCreate,
 }: {
   mode: "lines" | "csv";
   fields: AddField[];
@@ -751,6 +765,7 @@ function BatchAddModal({
   entityLabel: string;
   onClose: () => void;
   onCreate: (values: Record<string, string | number>) => Promise<unknown>;
+  onBulkCreate?: (items: Record<string, string | number>[]) => Promise<unknown>;
 }) {
   const [text, setText] = useState("");
   const [result, setResult] = useState<string | null>(null);
@@ -782,9 +797,18 @@ function BatchAddModal({
   const submit = async () => {
     if (!items.length || saving) return;
     setSaving(true);
-    const res = await Promise.allSettled(items.map((it) => onCreate(it)));
-    const ok = res.filter((r) => r.status === "fulfilled").length;
-    const failed = items.length - ok;
+    let ok = 0;
+    let failed = 0;
+    if (onBulkCreate) {
+      // 단일 호출 일괄 생성 (all-or-nothing): 성공 시 전체, 실패 시 0
+      try { await onBulkCreate(items); ok = items.length; }
+      catch { failed = items.length; }
+    } else {
+      // 폴백: onCreate N회
+      const res = await Promise.allSettled(items.map((it) => onCreate(it)));
+      ok = res.filter((r) => r.status === "fulfilled").length;
+      failed = items.length - ok;
+    }
     setSaving(false);
     setResult(`${ok}개 생성${failed ? `, ${failed}개 실패` : ""}`);
     if (!failed) setTimeout(onClose, 800);

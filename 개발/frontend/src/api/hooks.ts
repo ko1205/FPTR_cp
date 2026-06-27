@@ -274,6 +274,34 @@ export function useDeleteEntity(entity: string) {
   });
 }
 
+// bulk 작업 후 단 한 번의 무효화 (목록/스탯/활동 피드)
+function invalidateBulk(qc: ReturnType<typeof useQueryClient>) {
+  qc.invalidateQueries({ queryKey: ["shots"] });
+  qc.invalidateQueries({ queryKey: ["assets"] });
+  qc.invalidateQueries({ queryKey: ["versions"] });
+  qc.invalidateQueries({ queryKey: ["projectStats"] });
+  qc.invalidateQueries({ queryKey: ["activityProj"] });
+  qc.invalidateQueries({ queryKey: ["activityGlobal"] });
+}
+
+/** 일괄 생성 (POST /{entity}/batch) — items 1건의 호출로 N개 생성 */
+export function useBulkCreate(entity: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (items: Record<string, unknown>[]) => api.post(`/${entity}/batch`, items),
+    onSuccess: () => invalidateBulk(qc),
+  });
+}
+
+/** 일괄 삭제 (POST /{entity}/batch-delete) — ids 1건의 호출로 N개 삭제 */
+export function useBulkDelete(entity: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (ids: number[]) => api.post(`/${entity}/batch-delete`, { ids }),
+    onSuccess: () => invalidateBulk(qc),
+  });
+}
+
 export function useCreateNote() {
   const qc = useQueryClient();
   return useMutation({

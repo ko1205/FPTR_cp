@@ -4,6 +4,7 @@ import { useProject } from "../context/ProjectContext";
 import {
   useAssets, useUpdateStatus, useUpdateField, useSteps,
   useStatuses, useCreateEntity, useDeleteEntity,
+  useBulkCreate, useBulkDelete,
 } from "../api/hooks";
 import { StatusSelect } from "../components/StatusSelect";
 import { thumbStyle } from "../util/thumb";
@@ -21,6 +22,8 @@ export function Assets() {
   const patchAsset = useUpdateField("assets");
   const createAsset = useCreateEntity("assets");
   const deleteAsset = useDeleteEntity("assets");
+  const bulkCreateAsset = useBulkCreate("assets");
+  const bulkDeleteAsset = useBulkDelete("assets");
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const stop = (e: React.MouseEvent) => e.stopPropagation();
 
@@ -146,6 +149,8 @@ export function Assets() {
           primaryField="code"
           onCreate={(v) => createAsset.mutateAsync({ project_id: projectId, ...v })}
           onDelete={(id) => deleteAsset.mutateAsync(id)}
+          onBulkCreate={(items) => bulkCreateAsset.mutateAsync(items.map((v) => ({ project_id: projectId, ...v })))}
+          onBulkDelete={(ids) => bulkDeleteAsset.mutateAsync(ids)}
           renderCard={(a) => ({
             thumbnail: a.thumbnail,
             code: a.code,

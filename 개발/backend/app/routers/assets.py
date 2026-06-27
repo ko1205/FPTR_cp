@@ -1,5 +1,5 @@
 """Asset CRUD + 필터 + 연관 조회."""
-from typing import Optional
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
@@ -54,6 +54,50 @@ def create_asset(payload: schemas.AssetCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(a)
     return serializers.asset_dict(a, db)
+
+
+@router.post("/batch", status_code=201)
+def batch_create_assets(payload: List[schemas.AssetCreate], db: Session = Depends(get_db)):
+    """여러 Asset 일괄 생성 (all-or-nothing 단일 트랜잭션, 엔티티당 created 이벤트)."""
+    if not payload:
+        raise HTTPException(422, "빈 배치입니다.")
+    created = []
+    for item in payload:
+        a = models.Asset(**item.model_dump())
+        db.add(a)
+        db.flush()
+        activity.record_event(
+            db, project_id=a.project_id, entity_type="Asset", entity_id=a.id,
+            event_type="created", message=f"created Asset {a.code}",
+        )
+        created.append(a)
+    db.commit()
+    smap = serializers.status_map(db)
+    stepmap = serializers.step_map(db)
+    return {
+        "created": [serializers.asset_dict(a, db, smap, stepmap) for a in created],
+        "count": len(created),
+    }
+
+
+@router.post("/batch-delete")
+def batch_delete_assets(payload: schemas.IdList, db: Session = Depends(get_db)):
+    """여러 Asset 일괄 삭제 (존재하는 것만, 엔티티당 deleted 이벤트, 단일 커밋)."""
+    if not payload.ids:
+        raise HTTPException(422, "빈 id 목록입니다.")
+    rows = db.query(models.Asset).filter(models.Asset.id.in_(payload.ids)).all()
+    if not rows:
+        raise HTTPException(404, "삭제할 Asset 이 없습니다.")
+    deleted_ids = []
+    for a in rows:
+        activity.record_event(
+            db, project_id=a.project_id, entity_type="Asset", entity_id=a.id,
+            event_type="deleted", message=f"deleted Asset {a.code}",
+        )
+        deleted_ids.append(a.id)
+        db.delete(a)
+    db.commit()
+    return {"deleted_ids": deleted_ids, "count": len(deleted_ids)}
 
 
 @router.patch("/{asset_id}")

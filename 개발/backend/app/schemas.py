@@ -9,6 +9,12 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 
 
+# ---------------- 공통(bulk) ----------------
+class IdList(BaseModel):
+    """일괄 삭제용 id 목록."""
+    ids: List[int]
+
+
 # ---------------- Project ----------------
 class ProjectCreate(BaseModel):
     name: str
