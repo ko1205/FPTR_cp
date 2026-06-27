@@ -2619,3 +2619,111 @@ input {
   font-size: 11px;
   opacity: 0.8;
 }
+
+/* ====== People 페이지 ====== */
+.people-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.people-count {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.people-search {
+  width: 220px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 12px;
+  padding: 6px 10px;
+}
+.people-search:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.people-group {
+  margin-bottom: 22px;
+}
+.people-group-head {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+.people-group-count {
+  color: var(--text-dim);
+  font-weight: 600;
+  margin-left: 4px;
+}
+.people-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: 10px;
+}
+.person-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.person-card:hover {
+  border-color: var(--accent);
+}
+.person-info {
+  min-width: 0;
+  flex: 1;
+}
+.person-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.person-login {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 1px;
+}
+.person-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  min-width: 0;
+}
+.person-email {
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.person-email:hover {
+  text-decoration: underline;
+}
+.role-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  white-space: nowrap;
+  background: #3a3d41;
+  color: #d6d6d6;
+}
+.role-supervisor { background: #6b3fa0; color: #fff; }
+.role-coordinator { background: #1f6f8b; color: #fff; }
+.role-admin { background: #8a4b2b; color: #fff; }
+.role-producer { background: #2f7d4f; color: #fff; }
+.role-artist { background: #3a3d41; color: #d6d6d6; }

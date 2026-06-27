@@ -96,7 +96,7 @@ export function GlobalBar() {
         )}
       </div>
 
-      <span className="gnav">People</span>
+      <NavLink to="/people" className={({ isActive }) => `gnav ${isActive ? "active" : ""}`}>People</NavLink>
       <span className="gnav">Apps ▾</span>
 
       <span className="gb-spacer" />

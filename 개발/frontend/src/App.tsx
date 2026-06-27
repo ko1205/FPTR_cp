@@ -6,6 +6,7 @@ import { ProjectTabs } from "./components/ProjectTabs";
 import { ProjectsList } from "./pages/ProjectsList";
 import { Dashboard } from "./pages/Dashboard";
 import { Inbox } from "./pages/Inbox";
+import { People } from "./pages/People";
 import { Shots } from "./pages/Shots";
 import { Assets } from "./pages/Assets";
 import { MyTasks } from "./pages/MyTasks";
@@ -19,7 +20,7 @@ export default function App() {
   const location = useLocation();
   if (!user) return <Login />;
   // 프로젝트 리스트/전역 Inbox 뷰에서는 2번째 메뉴 라인(프로젝트 탭)을 숨긴다
-  const globalViews = ["/projects", "/inbox"];
+  const globalViews = ["/projects", "/inbox", "/people"];
   const showProjectTabs = !globalViews.includes(location.pathname);
   return (
     <div className="app">
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/projects" element={<ProjectsList />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/inbox" element={<Inbox />} />
+          <Route path="/people" element={<People />} />
           <Route path="/shots" element={<Shots />} />
           <Route path="/assets" element={<Assets />} />
           <Route path="/my-tasks" element={<MyTasks />} />

@@ -51,6 +51,11 @@ def get_asset(asset_id: int, db: Session = Depends(get_db)):
 def create_asset(payload: schemas.AssetCreate, db: Session = Depends(get_db)):
     a = models.Asset(**payload.model_dump())
     db.add(a)
+    db.flush()
+    activity.record_event(
+        db, project_id=a.project_id, entity_type="Asset", entity_id=a.id,
+        event_type="created", message=f"created Asset {a.code}",
+    )
     db.commit()
     db.refresh(a)
     return serializers.asset_dict(a, db)
@@ -136,6 +141,10 @@ def delete_asset(asset_id: int, db: Session = Depends(get_db)):
     a = db.get(models.Asset, asset_id)
     if not a:
         raise HTTPException(404, f"Asset {asset_id} not found")
+    activity.record_event(
+        db, project_id=a.project_id, entity_type="Asset", entity_id=a.id,
+        event_type="deleted", message=f"deleted Asset {a.code}",
+    )
     db.delete(a)
     db.commit()
 

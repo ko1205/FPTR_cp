@@ -62,7 +62,8 @@ List/Thumbnail 모드 · 더블클릭 텍스트(Description=textarea) 편집 · 
 Review/Versions 그리드+리뷰 패널(**실제 영상 스트리밍 플레이어**+프레임 이동) · Playlists ·
 **엔티티 상세 전체페이지**(브레드크럼+큰썸네일+필드표+Activity/Tasks/Versions/Notes 서브탭,
 Versions 탭 카드 클릭→리뷰 드로어) · **전역 Inbox**(`/inbox`: 전 프로젝트 활동 피드, 날짜버킷
-Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav unread 배지).
+Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav unread 배지) ·
+**People**(`/people`: 전역 사용자 목록, 부서별 그룹·역할 배지·검색).
 
 **기타**: 더미 로그인/유저메뉴/로그아웃 · Projects 드롭다운 선택 · 활동이력(EventLog) 기록·표시 ·
 실제 base.css 추출 색/폰트 토큰(#0696d7 등) · 샘플 썸네일/영상(`/static/thumbs`,`/static/media`) ·
@@ -72,10 +73,10 @@ Today/Yesterday, 엔티티/프로젝트 링크, 읽음추적[localStorage]+nav u
 단일 커밋·엔티티당 EventLog. 프론트 `useBulkCreate/useBulkDelete` + EntityGrid `onBulkCreate/onBulkDelete`
 (미지정 시 N회 루프 폴백). Add Multiple/CSV·일괄삭제가 단일 호출로 처리.
 
-남은 로드맵: 기본 컬럼 확장(Reel/Priority/Camera), 폼 focus-trap,
-Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블), 단건 create/delete 활동이벤트 통일.
-(완료: CSV 인용 파서 `util/csv.ts`; 커스텀필드 타입 date/user/entity — date=ISO문자열,
-user=유저id, entity="Type:id" 참조, EntityGrid CustomCell 인라인 편집.)
+남은 로드맵: 기본 컬럼 확장(Reel/Priority/Camera; ※ Shot 모델 컬럼 추가 = SQLite 마이그/재시드 필요),
+폼 focus-trap, Inbox 고도화(스레드 묶기·@mention·유저별 Notification 테이블).
+(완료: CSV 인용 파서 `util/csv.ts`; 커스텀필드 타입 date/user/entity; People 페이지;
+단건 create/delete 활동이벤트(created/deleted) — bulk 와 통일.)
 
 ---
 

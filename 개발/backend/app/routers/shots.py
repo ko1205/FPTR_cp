@@ -66,6 +66,10 @@ def create_shot(payload: schemas.ShotCreate, db: Session = Depends(get_db)):
     db.add(s)
     db.flush()
     _apply_assets(s, payload.asset_ids, db)
+    activity.record_event(
+        db, project_id=s.project_id, entity_type="Shot", entity_id=s.id,
+        event_type="created", message=f"created Shot {s.code}",
+    )
     db.commit()
     db.refresh(s)
     return serializers.shot_dict(s, db)
@@ -157,6 +161,10 @@ def delete_shot(shot_id: int, db: Session = Depends(get_db)):
     s = db.get(models.Shot, shot_id)
     if not s:
         raise HTTPException(404, f"Shot {shot_id} not found")
+    activity.record_event(
+        db, project_id=s.project_id, entity_type="Shot", entity_id=s.id,
+        event_type="deleted", message=f"deleted Shot {s.code}",
+    )
     db.delete(s)
     db.commit()
 
