@@ -1,0 +1,19 @@
+I'm building a prototype clone of Autodesk ShotGrid / Flow Production Tracking (a VFX production tracker). Stack: React 18 + TypeScript + Vite frontend, Python FastAPI + SQLite backend. The frontend has a generic <EntityGrid> component (used by Shots and Assets). Columns are defined as an array of { key, label, className, render(row)=>ReactNode }. It already supports row grouping, a colored Status cell, client-side search, and List/Thumbnail toggle.
+
+I must add 3 grid features to match ShotGrid:
+(1) drag-and-drop COLUMN REORDERING by dragging column headers;
+(2) HIDE/SHOW columns via a "Fields" dropdown;
+(3) CUSTOM FIELDS — let users add a new column at runtime (text / checkbox / number).
+
+My proposed approach:
+- Per-entity "view config" persisted in localStorage: { order: string[] (column keys), hidden: string[], customFields: {id,label,type}[] }.
+- Reorder: native HTML5 draggable on <th>, swap entries in order[].
+- Hide/show: Fields dropdown with checkboxes.
+- Custom fields: user adds {id,label,type}; renders an editable cell. For VALUES, since SQLite schema is fixed, store custom-field values client-side in localStorage keyed by entityId (NOT in DB).
+
+Questions — do you AGREE or do it differently?
+1. Custom field VALUES: client-side localStorage vs adding a JSON "custom_fields" column to SQLite + API. Trade-offs for a prototype that should FEEL like ShotGrid?
+2. Native HTML5 drag-drop for <th> reordering vs a library (dnd-kit/react-dnd): pitfalls with <table>, is native enough?
+3. Any ShotGrid grid behaviors I'm missing (column resize, pinned cols, field types)?
+
+Be concise and concrete (bullet points). State clearly if you agree with my plan or propose a better one.

@@ -1,0 +1,13 @@
+React 18 + TS + Vite + FastAPI + SQLite ShotGrid clone. Generic <EntityGrid> (HTML table, table-layout:fixed colgroup widths, drag-reorder + resize headers, hide/show + custom fields, grouping, status cell, double-click inline edit, checkbox bulk-select with a bulk bar, header-click sort, Filter panel). Columns: {key,label,width,render,edit,sortAccessor,filterAccessor}. Backend has POST/PATCH/DELETE for shots/assets/versions etc.
+
+I'm adding CRUD. Give concise bullets + clear recommendation + top pitfalls each:
+
+A) RIGHT-CLICK CONTEXT MENU on a row → "Delete" (and maybe Open/Duplicate). How to implement a positioned context menu in React over an HTML table (onContextMenu, mouse coords, close on outside-click/scroll/Esc, avoid native menu, not conflict with row-click selection and checkbox)? Confirm-before-delete UX.
+
+B) BULK DELETE via the "More" toolbar dropdown: "Delete selected (N)" using the existing checkbox selection Set<number>. Sequential DELETE requests vs a backend bulk endpoint? Refresh/optimism.
+
+C) GENERIC ADD FORM: the "+ Add Shot/Asset" button should open a form to create an item, then POST. The fields differ per entity. Cleanest way to drive a generic create-form modal from a per-page field config (e.g. {key,label,type:text|number|select,options,required,default}) inside the generic EntityGrid, while keeping EntityGrid entity-agnostic? Modal vs inline new-row?
+
+D) ADD MULTIPLE / ADD CSV (bulk create) in the More menu: "Add Multiple" (textarea, one item per line → many items with a primary field like code) and "Add CSV" (paste CSV with header row → map columns to fields → many items). Parsing pitfalls (quoting, headers, validation), and how to call create (loop POST vs bulk endpoint), partial failures.
+
+Be concise. State the cleanest approach + pitfalls for each.

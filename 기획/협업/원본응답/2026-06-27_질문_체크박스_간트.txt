@@ -1,0 +1,17 @@
+Answer in concise bullet points. React 18 + TS + Vite ShotGrid (Flow Production Tracking) clone. The generic <EntityGrid> renders an HTML <table> with table-layout:fixed + <colgroup> pixel widths, draggable+resizable headers, a Fields menu (hide/show + custom fields), grouping, a colored Status cell, and double-click inline edit. Columns are {key,label,width,render,edit}. Backend is FastAPI + SQLite; Task has start_date and due_date; statuses have code/name/color.
+
+I will implement TWO features. Give concrete recommendations + pitfalls for each:
+
+A) CHECKBOX BULK SELECTION (like ShotGrid):
+- Leading checkbox column (first), header checkbox = select-all of currently visible/filtered rows, per-row checkbox toggles, selected rows highlighted.
+- A bulk-action bar appears when >=1 selected: e.g. "N selected", change Status for all selected (PATCH per row), clear.
+- How to integrate cleanly into a generic table that also has grouping, drag-reorder headers, resizable columns, and row-click selection + double-click edit?
+- Pitfalls: select-all semantics with grouping+filter+search; checkbox column should NOT be reorderable/hideable; avoiding conflict between checkbox click and row click; sticky first column for horizontal scroll (worth it?).
+
+B) SCHEDULE / GANTT view (new project page):
+- Render Tasks as horizontal bars on a date timeline using task.start_date/due_date. Prefer NO heavy library (custom CSS/flex/SVG).
+- Rows grouped by entity (Shot/Asset) and/or by pipeline Step. Timeline header with date ticks (weeks/months), bar x-position and width from date range, a "today" line, color bars by step/status.
+- Recommend: minimal rendering approach (CSS grid vs absolute positioning vs SVG), how to map dates→pixels, handling the visible date range/zoom, and what backend data shape to return.
+- Pitfalls: date scaling, sparse/missing dates, many rows performance, timezone, zoom levels, drag-to-reschedule later.
+
+For each feature: state a clear recommended approach and the top 3 pitfalls. Be concise.

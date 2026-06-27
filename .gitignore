@@ -1,0 +1,21 @@
+# Python (백엔드) — 로컬 격리 환경
+개발/backend/venv/
+__pycache__/
+*.pyc
+
+# Node (프론트엔드) — 로컬 격리 환경
+개발/frontend/node_modules/
+개발/frontend/dist/
+개발/frontend/*.tsbuildinfo
+
+# SQLite 파일 DB (시드로 재생성 가능)
+개발/database/*.db
+개발/database/*.db-journal
+개발/database/*.db-wal
+개발/database/*.db-shm
+
+# 로그 / 임시
+*.log
+
+# OS
+.DS_Store

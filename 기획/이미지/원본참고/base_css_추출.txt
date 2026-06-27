@@ -1,0 +1,94 @@
+# ShotGrid base.css 실측 추출 (핵심값)
+출처: https://4th-vfx-2023-1.shotgrid.autodesk.com/dist/production/stylesheets/base.css
+
+## 폰트 스택
+--header-font-stack: ArtifaktElement, helvetica, arial, sans-serif
+--legend-font-stack: ArtifaktLegend, helvetica, arial, sans-serif
+--numerals-font-stack: ArtifaktElement, helvetica, arial, sans-serif
+--primary-font-stack: ArtifaktElement, helvetica, arial, sans-serif
+--secondary-font-stack: ArtifaktElement, helvetica, arial, sans-serif
+
+## 글로벌 네비 테마 색
+.global_nav_bar_theme1 {background-color: #0c2c54
+.global_nav_bar_theme1 {background-color: #bcd3ee
+.global_nav_bar_theme2 {background-color: #234200
+.global_nav_bar_theme2 {background-color: #cfe4b3
+.global_nav_bar_theme3 {background-color: #520404
+.global_nav_bar_theme3 {background-color: #f7d6d6
+.global_nav_bar_theme4 {background-color: #04403d
+.global_nav_bar_theme4 {background-color: #ade4de
+.global_nav_bar_theme5 {background-color: #8c3401
+.global_nav_bar_theme5 {background-color: #fddaa4
+.global_nav_bar_theme6 {background-color: #781848
+.global_nav_bar_theme6 {background-color: #ffd6eb
+.global_nav_bar_theme7 {background-color: #482f6b
+.global_nav_bar_theme7 {background-color: #eadcfd
+.global_nav_bar_theme8 {background-color: #0a324d
+.global_nav_bar_theme8 {background-color: #9bd5ef
+
+## SGDS 색 토큰(샘플)
+--sgds_basics_colors_autodeskBlue200, #9bd5ef
+--sgds_basics_colors_autodeskBlue300, #6ac0e7
+--sgds_basics_colors_autodeskBlue400, #38abdf
+--sgds_basics_colors_autodeskBlue700, #006eaf
+--sgds_basics_colors_autodeskBlue900, #0a324d
+--sgds_basics_colors_charcoal100, #eeeeee
+--sgds_basics_colors_charcoal400, #bbbbbb
+--sgds_basics_colors_charcoal900, #3c3c3c
+--sgds_basics_colors_darkBlue200, #bcd3ee
+--sgds_basics_colors_darkBlue400, #5f8bcb
+--sgds_basics_colors_darkBlue700, #064285
+--sgds_basics_colors_darkBlue900, #0c2c54
+--sgds_basics_colors_green200, #cfe4b3
+--sgds_basics_colors_green400, #9fc966
+--sgds_basics_colors_green700, #507b16
+--sgds_basics_colors_green900, #234200
+--sgds_basics_colors_pink200, #ffd6eb
+--sgds_basics_colors_pink400, #ff8cc6
+--sgds_basics_colors_pink700, #c72877
+--sgds_basics_colors_pink900, #781848
+--sgds_basics_colors_purple200, #eadcfd
+--sgds_basics_colors_purple400, #c5a1f8
+--sgds_basics_colors_purple700, #8558c5
+--sgds_basics_colors_purple900, #482f6b
+--sgds_basics_colors_red200, #f7d6d6
+--sgds_basics_colors_red400, #f48686
+--sgds_basics_colors_red700, #af1b1b
+--sgds_basics_colors_red900, #520404
+--sgds_basics_colors_surfaceLightGrayLevel300, #d9d9d9
+--sgds_basics_colors_textAgainstLight, #3c3c3c
+--sgds_basics_colors_turquoise200, #ade4de
+--sgds_basics_colors_turquoise400, #5bc9bd
+--sgds_basics_colors_turquoise700, #168576
+--sgds_basics_colors_turquoise900, #04403d
+--sgds_basics_colors_yellowOrange200, #fddaa4
+--sgds_basics_colors_yellowOrange400, #fbb549
+--sgds_basics_colors_yellowOrange700, #d9730b
+--sgds_basics_colors_yellowOrange900, #8c3401
+
+## 빈도 상위 색상
+1019 #0696d7
+ 849 #3c3c3c
+ 192 #f5f5f5
+ 143 #e2e2e2
+ 108 #d9d9d9
+  84 #1e1e1e
+  73 #4d4d4d
+  60 #dd2222
+  50 #ffffff
+  47 #eb5555
+  43 #9bd5ef
+  43 #074b78
+  40 #cccccc
+  40 #87b340
+  37 #66bfe9
+  34 #faa21b
+  33 #dcdcdc
+  31 #fbb549
+  30 #999999
+  22 #cceaf9
+  21 #006eaf
+  17 #f48686
+  16 #d9730b
+  16 #c5a1f8
+  15 #666666

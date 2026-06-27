@@ -1,0 +1,15 @@
+Answer directly in plain text bullet points. Do NOT use any tools/browser/files — pure architecture discussion.
+
+Context: React 18 + TS + Vite clone of Autodesk ShotGrid (VFX tracker). A generic <EntityGrid> renders an HTML <table> of Shots/Assets with columns {key,label,render}. It already has grouping, colored Status cell, drag-to-reorder headers, hide/show + custom fields (DB-backed), image thumbnails.
+
+I need to add 4 behaviors to match ShotGrid. Give concrete, concise recommendations + pitfalls for each:
+
+1) LAYOUT/SCROLL: The top nav bars should stay full-width responsive (fine). But the GRID must NOT shrink/reflow when the browser window gets smaller — instead it keeps fixed column widths and shows a HORIZONTAL scrollbar (and vertical scrollbar for rows). What's the cleanest CSS to achieve a fixed-width, non-responsive table inside a scroll container? (table-layout:fixed + explicit col widths + overflow:auto wrapper?)
+
+2) COLUMN RESIZE: Columns must be resizable by dragging a handle on the column border (mouse), and widths persist (localStorage). Best approach in a React table: native pointer events on a resize grip in each <th>, updating a widths map, applied via <colgroup><col width>? Pitfalls vs a lib (react-table/tanstack)?
+
+3) DOUBLE-CLICK EDIT: Text columns like Description should become editable on double-click → input → save via PATCH API on blur/Enter. Any gotchas combining this with row-click selection and header drag?
+
+4) PIPELINE COLUMN: Each Shot has a variable number of Tasks (not always the same steps). Currently I render a horizontal strip of colored cells, one per task. Should the pipeline summary instead ALIGN BY STEP (fixed sub-columns per pipeline step: Layout/Anim/FX/Lighting/Comp, with gaps for missing tasks) like real ShotGrid, or just render a variable-length strip? Which is more faithful and how to implement alignment-by-step cleanly?
+
+State your recommendation clearly for each. Be concise.
